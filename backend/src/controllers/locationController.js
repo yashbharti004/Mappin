@@ -46,6 +46,10 @@ export async function getLocations(req, res, next) {
     const filter = {};
 
     if (type) {
+      const VALID_TYPES = ['creator_post', 'furniture', 'generic'];
+      if (!VALID_TYPES.includes(type)) {
+        return res.status(400).json({ error: `type must be one of: ${VALID_TYPES.join(', ')}` });
+      }
       filter.type = type;
     }
 
