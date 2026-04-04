@@ -22,7 +22,7 @@ export default function LocationDetailPanel({ location, onClose }) {
     (Array.isArray(detail?.images) && detail.images[0]) ||
     null;
 
-  const [lng, lat] = detail?.coordinates || [null, null];
+  const [lng, lat] = detail?.location?.coordinates || detail?.coordinates || [null, null];
 
   return (
     <div className="fixed right-0 top-0 bottom-0 w-96 z-20 bg-white shadow-xl overflow-y-auto">

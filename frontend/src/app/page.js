@@ -58,17 +58,23 @@ export default function Home() {
         </div>
       </div>
 
-      {showDetailPanel ? (
-        <LocationDetailPanel
-          location={selectedLocation}
-          onClose={handleCloseDetail}
-        />
-      ) : (
+      {/* Desktop: side panel (hidden on mobile) */}
+      {showDetailPanel && (
+        <div className="hidden md:block">
+          <LocationDetailPanel
+            location={selectedLocation}
+            onClose={handleCloseDetail}
+          />
+        </div>
+      )}
+
+      {/* Mobile: bottom sheet (always present, hidden on desktop when side panel is active) */}
+      <div className={showDetailPanel ? 'md:hidden' : ''}>
         <BottomSheet
           selectedLocation={selectedLocation}
           onClose={handleCloseDetail}
         />
-      )}
+      </div>
 
       {showAddModal && (
         <AddLocationModal

@@ -3,7 +3,7 @@
 import { Marker as MapboxMarker } from 'react-map-gl';
 
 export default function Marker({ location, onMarkerClick }) {
-  const [lng, lat] = location.coordinates || [0, 0];
+  const [lng, lat] = location.location?.coordinates || location.coordinates || [0, 0];
 
   return (
     <MapboxMarker longitude={lng} latitude={lat} anchor="center">

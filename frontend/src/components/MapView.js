@@ -11,7 +11,7 @@ export default function MapView({ onMapClick, onMarkerClick, selectedLocation })
 
   useEffect(() => {
     if (!selectedLocation || !mapRef.current) return;
-    const [lng, lat] = selectedLocation.coordinates || [0, 0];
+    const [lng, lat] = selectedLocation.location?.coordinates || selectedLocation.coordinates || [0, 0];
     mapRef.current.easeTo({
       center: [lng, lat],
       padding: { bottom: 250 },
