@@ -144,11 +144,29 @@ export default function BottomSheet({ selectedLocation, onClose }) {
       >
         {/* Handle */}
         <div
-          className="flex justify-center cursor-grab active:cursor-grabbing select-none"
+          role="slider"
+          aria-label="Drag to resize panel"
+          aria-valuemin={0}
+          aria-valuemax={2}
+          aria-valuenow={snapState === 'peeking' ? 0 : snapState === 'mid' ? 1 : 2}
+          tabIndex={0}
+          className="flex justify-center cursor-grab active:cursor-grabbing select-none focus:outline-none"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
           onMouseDown={onMouseDown}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              snapState === 'peeking' ? snapTo('mid') : snapState === 'mid' ? snapTo('full') : null;
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              snapState === 'full' ? snapTo('mid') : snapState === 'mid' ? snapTo('peeking') : null;
+            } else if (e.key === 'Escape') {
+              snapTo('peeking');
+              onClose?.();
+            }
+          }}
         >
           <div className="w-10 h-1 bg-gray-300 rounded-full my-3" />
         </div>
@@ -156,6 +174,7 @@ export default function BottomSheet({ selectedLocation, onClose }) {
         {/* Close button */}
         {showClose && (
           <button
+            type="button"
             onClick={() => {
               onClose?.();
               snapTo('peeking');
@@ -185,6 +204,7 @@ export default function BottomSheet({ selectedLocation, onClose }) {
                 {selectedLocation.description}
               </p>
               <button
+                type="button"
                 onClick={() => snapTo('full')}
                 className="w-full bg-black hover:bg-gray-900 text-white font-bold py-3 rounded-xl transition-colors"
               >

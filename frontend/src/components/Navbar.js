@@ -8,6 +8,7 @@ export default function Navbar({ onAddLocation }) {
           📍 Mappin
         </span>
         <button
+          type="button"
           onClick={onAddLocation}
           className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
         >

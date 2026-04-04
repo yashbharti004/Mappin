@@ -74,6 +74,7 @@ export default function AddLocationModal({ coords, onClose }) {
       <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 max-h-[90vh] overflow-y-auto">
         {/* Close */}
         <button
+          type="button"
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
           aria-label="Close"

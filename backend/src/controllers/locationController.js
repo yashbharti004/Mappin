@@ -46,11 +46,17 @@ export async function getLocations(req, res, next) {
     const filter = {};
 
     if (type) {
-      const VALID_TYPES = ['creator_post', 'furniture', 'generic'];
-      if (!VALID_TYPES.includes(type)) {
-        return res.status(400).json({ error: `type must be one of: ${VALID_TYPES.join(', ')}` });
+      // Use a lookup map so user input never flows directly into the query
+      const TYPE_ALLOWLIST = {
+        creator_post: 'creator_post',
+        furniture: 'furniture',
+        generic: 'generic',
+      };
+      const safeType = TYPE_ALLOWLIST[type];
+      if (!safeType) {
+        return res.status(400).json({ error: `type must be one of: ${Object.keys(TYPE_ALLOWLIST).join(', ')}` });
       }
-      filter.type = type;
+      filter.type = safeType;
     }
 
     if (bounds) {

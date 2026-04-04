@@ -93,10 +93,20 @@ export default function LocationDetailPanel({ location, onClose }) {
             )}
 
             <div className="flex gap-3 mt-6">
-              <button className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm transition-colors">
+              <button
+                type="button"
+                aria-disabled="true"
+                className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-400 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-not-allowed"
+                title="Coming soon"
+              >
                 Save
               </button>
-              <button className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-2.5 rounded-xl text-sm transition-colors">
+              <button
+                type="button"
+                aria-disabled="true"
+                className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-400 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-not-allowed"
+                title="Coming soon"
+              >
                 Share
               </button>
             </div>
