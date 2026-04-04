@@ -13,6 +13,11 @@ export async function createLocation(req, res, next) {
       return res.status(400).json({ error: 'coordinates must be an array of [longitude, latitude]' });
     }
 
+    const [lng, lat] = coordinates.map(Number);
+    if (!isFinite(lng) || !isFinite(lat)) {
+      return res.status(400).json({ error: 'coordinates must be valid numbers' });
+    }
+
     const images = imageUrl ? [imageUrl] : [];
 
     const location = new Location({
@@ -22,7 +27,7 @@ export async function createLocation(req, res, next) {
       images,
       location: {
         type: 'Point',
-        coordinates: coordinates.map(Number),
+        coordinates: [lng, lat],
       },
       metadata: metadata || {},
       createdBy: createdBy || null,
@@ -45,8 +50,19 @@ export async function getLocations(req, res, next) {
     }
 
     if (bounds) {
-      const parsed = JSON.parse(bounds);
-      const { west, south, east, north } = parsed;
+      let parsed;
+      try {
+        parsed = JSON.parse(bounds);
+      } catch {
+        return res.status(400).json({ error: 'bounds must be a valid JSON string' });
+      }
+      const west = Number(parsed.west);
+      const south = Number(parsed.south);
+      const east = Number(parsed.east);
+      const north = Number(parsed.north);
+      if ([west, south, east, north].some((v) => !isFinite(v))) {
+        return res.status(400).json({ error: 'bounds values must be valid numbers' });
+      }
       filter.location = {
         $geoIntersects: {
           $geometry: {
