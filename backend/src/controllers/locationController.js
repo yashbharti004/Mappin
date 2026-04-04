@@ -98,6 +98,9 @@ export async function getLocationById(req, res, next) {
     }
     return res.status(200).json(location);
   } catch (err) {
+    if (err.name === 'CastError') {
+      return res.status(400).json({ error: 'Invalid location ID format' });
+    }
     next(err);
   }
 }
